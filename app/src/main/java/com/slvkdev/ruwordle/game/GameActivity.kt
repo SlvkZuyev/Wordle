@@ -1,16 +1,17 @@
 package com.slvkdev.ruwordle.game
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.slvkdev.ruwordle.composables.RemainingTimeDialogue
+import com.slvkdev.ruwordle.composables.RemainingTimeDialog
 import com.slvkdev.ruwordle.composables.TopBar
 import com.slvkdev.ruwordle.ui.theme.*
+import com.slvkdev.ruwordle.utils.FirstLaunchManager
 import com.slvkdev.wordle.field.WordleField
 import com.slvkdev.wordle.field.rememberWordleFieldState
 import com.slvkdev.wordle.keyboard.calculateWordleKeyboardDimensions
@@ -40,8 +41,14 @@ fun GameScreen(
 ) {
     val secondsUntilNextTry by viewModel.secondsUntilNextTry.collectAsState()
     val requestedWord by viewModel.wordOfTheDay.collectAsState()
-
-    Log.d("RecomposeNotificator", "Game screen drown: $requestedWord")
+    val context = LocalContext.current
+    LaunchedEffect(key1 = true) {
+        val firstLaunchManager = FirstLaunchManager(context)
+        if (firstLaunchManager.isFirstLaunch()) {
+            onClickRules()
+            firstLaunchManager.registerFirstLaunch()
+        }
+    }
 
     val wordleFieldState = rememberWordleFieldState(
         requestedWord = requestedWord,
@@ -50,12 +57,8 @@ fun GameScreen(
 
     val state = rememberWordleScreenState(
         wordleFieldState = wordleFieldState,
-        onWin = {
-            onAttemptFinished()
-        },
-        onLose = {
-            onAttemptFinished()
-        }
+        onWin = { onAttemptFinished() },
+        onLose = { onAttemptFinished() }
     )
 
     val keyboardDimensions = calculateWordleKeyboardDimensions()
@@ -98,10 +101,10 @@ fun GameScreen(
                 onClickApply = { state.onClickApply() }
             )
 
-            RemainingTimeDialogue(
+            RemainingTimeDialog(
                 modifier = Modifier.fillMaxWidth(),
                 secondsUntilNewWord = secondsUntilNextTry,
-                onFinish = {viewModel.refreshData()}
+                onFinish = { viewModel.refreshData() }
             )
         }
 

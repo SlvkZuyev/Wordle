@@ -2,9 +2,6 @@ package com.slvkdev.ruwordle.composables
 
 import android.os.CountDownTimer
 import android.util.Log
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -14,12 +11,12 @@ import androidx.compose.ui.text.font.FontWeight
 import com.slvkdev.ruwordle.extensions.formatTime
 
 class CountDownTimerState(durationMillis: Long, onFinish: () -> Unit) {
-    private val TIME_FORMAT = "%02d:%02d:%02d"
-    var time by mutableStateOf(durationMillis.formatTime(TIME_FORMAT))
+    private val timeFormat = "%02d:%02d:%02d"
+    var time by mutableStateOf(durationMillis.formatTime(timeFormat))
 
     private val countDownTimer = object : CountDownTimer(durationMillis, 1000) {
         override fun onTick(millisRemaining: Long) {
-            time = millisRemaining.formatTime(TIME_FORMAT)
+            time = millisRemaining.formatTime(timeFormat)
         }
 
         override fun onFinish() {
@@ -30,12 +27,18 @@ class CountDownTimerState(durationMillis: Long, onFinish: () -> Unit) {
 
     init {
         if (durationMillis > 0) {
-            Log.d("CountDownTimer", "timer started wit duration: ${durationMillis}")
+            Log.d("CountDownTimer", "Timer started with duration: ${durationMillis}")
             countDownTimer.start()
         }
 
     }
 }
+
+@Composable
+fun rememberCountDownTimerState(durationMillis: Long, onFinish: () -> Unit) =
+    remember(durationMillis, onFinish) {
+        CountDownTimerState(durationMillis = durationMillis, onFinish = onFinish)
+    }
 
 @Composable
 fun CountDownTimer(
@@ -54,10 +57,5 @@ fun CountDownTimer(
 }
 
 
-@Composable
-fun rememberCountDownTimerState(durationMillis: Long, onFinish: () -> Unit) =
-    remember(durationMillis, onFinish) {
-        CountDownTimerState(durationMillis = durationMillis, onFinish = onFinish)
-    }
 
 

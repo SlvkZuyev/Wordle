@@ -17,6 +17,9 @@ import kotlinx.serialization.json.Json
 
 private val Context.dataStore by preferencesDataStore(WORDLE_FIELD_SNAPSHOT)
 
+/*
+    SnapshotHelper used to save and restore field state
+*/
 class SnapshotHelper(context: Context) {
     private val snapshotDatastore = context.dataStore
 
@@ -36,7 +39,7 @@ class SnapshotHelper(context: Context) {
             val snapshotTimestamp = preferences[KEY_SNAPSHOT_TIMESTAMP] ?: 0
 
             Log.d("SnaphotHelper", "Snapshot loaded with word(s): ${insertedWords}")
-            if(DateUtils.isToday(snapshotTimestamp)){
+            if (DateUtils.isToday(snapshotTimestamp)) {
                 WordleSnapshot(
                     requestedWord = requestedWord,
                     insertedWords = Json.decodeFromString(insertedWords),

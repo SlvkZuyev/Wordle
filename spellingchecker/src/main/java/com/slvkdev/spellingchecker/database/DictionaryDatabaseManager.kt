@@ -6,7 +6,7 @@ import com.slvkdev.spellingchecker.model.Word
 
 
 class DictionaryDatabaseManager private constructor(private val db: DictionaryDb) {
-    suspend fun getWordIfExist(word: String): Word?{
+    suspend fun getWordOrNull(word: String): Word?{
         return db.userDao().getIfExist(word)
     }
 

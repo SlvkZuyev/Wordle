@@ -40,9 +40,8 @@ class GameViewModel @Inject constructor(
     }
 
     private suspend fun loadSecondsUntilNextTry() {
-        userInfoRepository.getLastAttemptTimestamp().collectLatest { timestamp ->
-                Log.d("SlavkLog", "New timestamp collected: $timestamp")
-            if (DateUtils.isToday(timestamp)) {
+        userInfoRepository.getLastAttemptTimestamp().collectLatest { lastAttemptTimestamp ->
+            if (DateUtils.isToday(lastAttemptTimestamp)) {
                 _secondsUntilNextTry.value = GetSecondsUntilMidnight()
             } else {
                 _secondsUntilNextTry.value = 0

@@ -10,17 +10,24 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import com.slvkdev.ruwordle.R
+import com.slvkdev.ruwordle.notifications.MyAlarmManager
 import kotlinx.coroutines.delay
 
 @Composable
-fun SplashScreen(onLoaded: ()->Unit, durationMillis: Long = 1500) {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
-        Image(painter = painterResource(id = R.mipmap.ic_launcher_foreground), contentDescription = "Logo")
+fun SplashScreen(onLoaded: () -> Unit, durationMillis: Long = 1500) {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Image(
+            painter = painterResource(id = R.mipmap.ic_launcher_foreground),
+            contentDescription = "Logo"
+        )
     }
 
-    LaunchedEffect(key1 = true){
+    val context = LocalContext.current
+    LaunchedEffect(key1 = true) {
+        MyAlarmManager.setup(context)
         delay(durationMillis)
         onLoaded()
     }

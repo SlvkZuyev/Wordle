@@ -15,7 +15,7 @@ private val Context.dataStore by preferencesDataStore(USER_INFO)
 class UserInfoRepository @Inject constructor(@ApplicationContext appContext: Context) {
 
     private val userInfoDatastore = appContext.dataStore
-    suspend fun getLastAttemptTimestamp(): Flow<Long> {
+    fun getLastAttemptTimestamp(): Flow<Long> {
         return userInfoDatastore.data.map { preferences ->
             preferences[KEY_LAST_ATTEMPT_TIMESTAMP] ?: 0
         }

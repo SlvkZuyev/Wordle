@@ -20,7 +20,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -38,6 +37,7 @@ fun WordleApp() {
         startDestination = Screen.Splash.route,
         modifier = Modifier.fillMaxSize()
     ) {
+
         composable(route = Screen.Splash.route,
             exitTransition = {
                 slideOutOfContainer(
@@ -60,7 +60,7 @@ fun WordleApp() {
 
         composable(
             route = Screen.Game.route,
-            ) {
+        ) {
             GameScreen(
                 navigateToRules = {
                     navController.navigate(Screen.Rules.route) {

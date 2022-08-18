@@ -21,7 +21,6 @@ import com.slvkdev.wordle.field.models.FieldSquare
 
 @Composable
 fun RulesScreen(navigateToGame: () -> Unit = {}) {
-    Log.d("SlvkLog", "Rules Screen Drown!!")
     LazyColumn(
         Modifier
             .fillMaxSize(),
@@ -43,7 +42,7 @@ fun ButtonPlay(onClick: () -> Unit) {
         colors = ButtonDefaults.buttonColors(backgroundColor = indicationColors.correctLetterColor)
     ) {
         Text(
-            text = "ПОЛЕТЕЛИ!",
+            text = "НАЧАТЬ!",
             style = MaterialTheme.typography.subtitle2,
             modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
             color = Color.White

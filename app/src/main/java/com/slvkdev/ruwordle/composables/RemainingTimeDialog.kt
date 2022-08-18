@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 
 @Preview
 @Composable
-fun RemainingTimeDialogue(
+fun RemainingTimeDialog(
     modifier: Modifier = Modifier,
     secondsUntilNewWord: Long = 0,
     onFinish: () -> Unit = {}
